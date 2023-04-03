@@ -1,0 +1,17 @@
+
+.row{
+    position: relative;
+}
+
+.hijo{
+   
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(80%, 50%);
+}
+html {
+    scroll-behavior: smooth;
+   /*Comenta la línea (o dale el valor 'auto' a scroll behavior )
+   para probar la diferencia con y sin scroll suavizado*/
+}

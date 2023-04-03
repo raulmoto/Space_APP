@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="./leaflet/leaflet.js"></script>
+    <link rel="stylesheet" href="./leaflet/leaflet.css" />
+    <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
+    <style>
+        html {
+            padding: 0;
+            margin: 0;
+        }
+
+        #map {
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div class="position-absolute w-100" style="height: 100vh;">
+            <div class="position-absolute" style="z-index: 1000; top: 35%; left: 35%;">
+                <h1 class="text-center" style="font-size: 6rem;color: #fff;">KlimaKord</h1>
+            </div>
+        </div>
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="10000">
+                <img src="./images/seco.jpg" class="d-block w-100" alt="..." style="width:800vh; height:100vh;">
+                <div class="carousel-caption d-none d-md-block   text-white">
+                    <a type="button" class="btn btn-info btn-sm mb-3" id="data" href="#abajo">ver pronostico</a>
+                    <h5>Concienciate</h5>
+                    <p>El conocimiento es poder, esatar al día del dia día a dia, es conocimiento</p>
+                </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="2000">
+                <img src="./images/7.jpg" class="d-block w-100" alt="..." style="width:800vh; height:100vh;">
+                <div class="carousel-caption d-none d-md-block text-white">
+                    <a type="button" class="btn btn-info btn-sm mb-3" id="data" href="#abajo">ver pronostico</a>
+                    <h5>Naturaleza</h5>
+                    <p>La naturaleza solo puede responder segun le pidamos.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./images/molinos.jpg" class="d-block w-100" alt="..." style="width:800vh; height:100vh;">
+                <div class="carousel-caption d-none d-md-block text-white">
+                    <a type="button" class="btn btn-info btn-sm mb-3" id="data" href="#abajo">ver pronostico</a>
+                    <h5>Reacion</h5>
+                    <p>Empezando ahora reparamos antes!!.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+
+    </div>
+    <!---->
+    <div style="position: relative;" id="abajo">
+        <div id='map'></div>
+        <div style="position: absolute; width: 100%; top:0; z-index: 1000;">
+            <a href="./nasa.html" class="position-absolute end-0 btn btn-light opacity-75 m-5">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" style="width: 70px;">
+                Mas información</a>
+
+            <!-- definimos el contenedor para nuestra caja de opciones -->
+            <div>
+                <div class="hijo col-3 position-absolute mt-3">
+                    <!-- Example split danger button -->
+                    <!-- establecemos una calse boostrap tipo Card y dentro metemos un formulario de boostrap -->
+                    <!-- El siguiente codigo, es un desplegable. se utiliza la clase collapse de bootstrap para crear el desplegable
+                      haciendo el enlace del boton con el href
+                 -->
+                    <p>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button"
+                            aria-expanded="false" aria-controls="collapseExample">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-info-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                <path
+                                    d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                            </svg>
+                        </a>
+                    </p>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                            Debe hacer clic en los checkbox para poder manejar la barra
+                            de porcentaje y hacer una estimacion pronostica. si no se hace clic, se tomara el valor por
+                            defecto (100%).
+                        </div>
+                    </div>
+                    <br>
+                    <!--inicio del panel-->
+                    <!--El panel de pronóstico, se usa para tomar datos que luego son recogidos por el boton " ver pronóstico.
+                    vease en la consola el resultado de ejecutar el boton. lo check no marcados se mostraran con su valor por defecto"-->
+                    <div class="card text-white  mb-5 "
+                        style="max-width: 18rem; background-color: rgb(64, 201, 228);  box-shadow: 10px 10px 5px lightblue;  margin-top: 35 px">
+                        <div class="card-header font-weight-bold">Panel de pronóstico</div>
+                        <div class="card-body">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"
+                                    data-toggle="collapse" href="#multiCollapseExample1" role="button"
+                                    aria-expanded="false" aria-controls="multiCollapseExample1">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    Vehiculos
+                                </label>
+
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="collapse multi-collapse" id="multiCollapseExample1">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="formControlRange">cuánto porcentaje?</label>
+                                                <input type="range" class="form-control-range" id="porcentaje1"
+                                                    value="100" progress value="0" max="200" step="1"
+                                                    list="listanivelescafeina" onchange="capturar1();"><span
+                                                    id='res1'>100</span>
+                                                <label for="formControlRange">%</label>
+                                                <datalist id="listanivelescafeina">
+                                                    <option value="40" value="veintiseis">
+
+                                                    <option value="80" value="cincuenta y dos">
+
+                                                    <option value="120" value="setenta y ocho">
+
+                                                    <option value="160" value="ciento cuatro">
+
+                                                    <option value="200" value="ciento treinta">
+                                                </datalist>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"
+                                    data-toggle="collapse" href="#multiCollapseExample2" role="button"
+                                    aria-expanded="false" aria-controls="multiCollapseExample1">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    Sistemas agricolas
+                                </label>
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="collapse multi-collapse" id="multiCollapseExample2">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="formControlRange">Cuánto porcentaje?</label>
+                                                <input type="range" class="form-control-range" id="porcentaje2" progress
+                                                    value="100" max="200" step="1" list="listanivelescafeina"
+                                                    onchange="capturar2();"><span id='res2'>100</span>
+                                                <label for="formControlRange">%</label>
+                                                <datalist id="porcentaje2">
+
+                                                    <option value="40" value="veintiseis">
+
+                                                    <option value="80" value="cincuenta y dos">
+
+                                                    <option value="120" value="setenta y ocho">
+
+                                                    <option value="160" value="ciento cuatro">
+
+                                                    <option value="200" value="ciento treinta">
+
+                                                </datalist>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"
+                                    data-toggle="collapse" href="#multiCollapseExample3" role="button"
+                                    aria-expanded="false" aria-controls="multiCollapseExample1">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    Industrias
+                                </label>
+
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="collapse multi-collapse" id="multiCollapseExample3">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="formControlRange">Cuánto porcentaje?</label>
+                                                <input type="range" class="form-control-range" id="porcentaje3" progress
+                                                    value="100" max="200" step="1" list="listanivelescafeina"
+                                                    onchange="capturar3();"><span id='res3'>100</span>
+                                                <label for="formControlRange">%</label>
+                                                <datalist id="porcentaje3">
+
+                                                    <option value="40" value="veintiseis">
+
+                                                    <option value="80" value="cincuenta y dos">
+
+                                                    <option value="120" value="setenta y ocho">
+
+                                                    <option value="160" value="ciento cuatro">
+
+                                                    <option value="200" value="ciento treinta">
+
+                                                </datalist>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"
+                                    data-toggle="collapse" href="#multiCollapseExample4" role="button"
+                                    aria-expanded="false" aria-controls="multiCollapseExample1">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    Viviendas
+                                </label>
+
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="collapse multi-collapse" id="multiCollapseExample4">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="formControlRange">cuánto porcentaje?</label>
+                                                <input type="range" class="form-control-range" id="porcentaje4" progress
+                                                    value="100" max="200" step="1" list="listanivelescafeina"
+                                                    onchange="capturar4();"><span id='res4'>100</span>
+                                                <label for="formControlRange">%</label>
+                                                <datalist id="porcentaje4">
+                                                    <option value="40" value="veintiseis">
+
+                                                    <option value="80" value="cincuenta y dos">
+
+                                                    <option value="120" value="setenta y ocho">
+
+                                                    <option value="160" value="ciento cuatro">
+
+                                                    <option value="200" value="ciento treinta">
+                                                </datalist>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"
+                                    data-toggle="collapse" href="#multiCollapseExample5" role="button"
+                                    aria-expanded="false" aria-controls="multiCollapseExample1">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    Otros
+                                </label>
+
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="collapse multi-collapse" id="multiCollapseExample5">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="formControlRange">Cuánto porcentaje?</label>
+                                                <input type="range" class="form-control-range" id="porcentaje5" progress
+                                                    value="100" max="200" step="1" list="listanivelescafeina"
+                                                    onchange="capturar5();"><span id='res5'>100</span>
+                                                <label for="formControlRange">%</label>
+                                                <datalist id="porcentaje5">
+
+                                                    <option value="40" value="veintiseis">
+
+                                                    <option value="80" value="cincuenta y dos">
+
+                                                    <option value="120" value="setenta y ocho">
+
+                                                    <option value="160" value="ciento cuatro">
+
+                                                    <option value="200" value="ciento treinta">
+
+                                                </datalist>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Formulario para el rango de años -->
+                            <!-- Get: --
+                             Post: Para capturar el rango de años usamos el input type "range", le indicamos el valor maximo y el minimo
+                            asi como de cuánto a cuánto avanza, en este caso avanza de 26 en 26 años. agregamos una lista como a tributo 
+                            al input y le definimos valores (26,52,78..etc).
+                             Agregamos la funcion "onchange" que  Ejecuta un JavaScript cuando un usuario cambia la opción seleccionada de un elemento
+                             y a medida que cambia de posicion en la barra de tiempo, el <span> se actualiza a los valores de la lista (todo eso en el JavaScript)
+                            -->
+                            <form>
+                                <div class="form-group">
+                                    <label for="formControlNumber">Año</label>
+                                    <input type="number" class="form-control-number" id="formControlNumber" value="2022"
+                                        pattern="[0-9]*" onchange="capturar();">
+                            </form>
+                            <button type="button" class="btn btn-primary btn-sm mt-2" id="data"
+                                onclick="enviarDatos()">ver
+                                pronostico</button>
+                        </div>
+                    </div>
+                    <!--fin del panel-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        function capturar() {
+            /* NOTA IMPORTANTE: 
+                el $ hace referencia a Jquerry mientras que .getElementById hace referencia a JavaScript
+                con lo cual es lo mismo, devuelve los mismo datos.te recuerdo que Jquery está escrito en Javascript por lo que.
+                "La diferencia es que el código sin jQuery es de una sola línea, mientras que con jQuery son muchas líneas, 
+                y es un código rebuscado que intenta funcionar en todos los navegadores."
+            */
+            var valor = $('#formControlNumber').val();
+            $('#res').text(valor);
+            return valor
+            /*lo que estamos ahciendo aqui es tomar el valor que hemos puesto en el HTML <span> 
+            y lo actualiza al valor de la lista segun vayamos avanzando.
+            
+            cuando avanzamos con el "onchange", actualizamos el la variable valor*/
+
+        }
+
+
+
+        function capturar1() {
+
+            var valor1 = $('#porcentaje1').val();
+            $('#res1').text(valor1);
+            return valor1
+        }
+
+        function capturar2() {
+
+            var valor2 = $('#porcentaje2').val();
+            $('#res2').text(valor2);
+            return valor2
+        }
+
+        function capturar3() {
+
+            var valor3 = $('#porcentaje3').val();
+            $('#res3').text(valor3);
+            return valor3
+        }
+
+        function capturar4() {
+
+            var valor4 = $('#porcentaje4').val();
+            $('#res4').text(valor4);
+            return valor4
+        }
+
+        function capturar5() {
+
+            var valor5 = $('#porcentaje5').val();
+            $('#res5').text(valor5);
+            return valor5
+
+        }
+
+        function enviarDatos() {
+            apiQuery = `http://192.168.30.176:9876/api/time/ano=/${capturar()}/vehiculos=/${capturar1()}/industrias=/${capturar3()}/agicolas=/${capturar2()}/viviendas=/${capturar4()}/otros=/${capturar5()}/key=/cb-default-key`
+            fetch(apiQuery)
+                .then(function (response) { return response.json() })
+                .then(function (json) {
+                    resetmap(Math.round(json.altmeters))
+                });
+        }
+
+        let metros = 0;
+        let map = null;
+        function masmetros() {
+            metros += 100
+            console.log(metros);
+            resetmap(metros)
+        }
+        function menosmetros() {
+            metros -= 100
+            console.log(metros);
+            resetmap(metros)
+        }
+        function resetmap(metro) {
+            if (map) map.remove()
+            map = null
+            map = L.map('map').setView([40, -5], 6, { zoomControl: false });
+            map.zoomControl.remove()
+            L.tileLayer(`http://192.168.30.176:9876/api/tile/{x}/{y}/{z}/${metro}/key=/cb-default-key`, {
+                maxZoom: 19,
+                maxNativeZoom: 15,
+                zoomControl: false
+            }).addTo(map)
+        }
+        resetmap(metros)
+    </script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <!--capturar range-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</body>
+
+</html>
